@@ -1,0 +1,38 @@
+#import library
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+import numpy as np
+#////import data
+df=pd.read_csv("linear-regression-dataset.csv",sep=";") #csv ile hazırlanmış datasetimizi read ettik.sep ile ; ile ayıracak.
+#df artık bir dataframedir. dataframelerdeki gibi işlemler yapabiliriz.
+
+
+#//////plot data
+plt.scatter(df.deneyim,df.maas)
+plt.xlabel("deneyim")
+plt.ylabel("maaş")
+plt.show()
+
+#////csvden okuduğumuz datamızı fit komutunun içine yazabileceğimiz hale getiriyoruz.array formatında olmalı!!
+x=df.deneyim.values.reshape(-1,1) #bu şekilde values ile arraye çevirdiğimizde bu arrayi 14 e , olarak gösterir
+#kütüphanemiz bunu anlamayacağı için (14,1) gereklidir. reshape ile bu halledilir
+y=df.maas.values.reshape(-1,1) #numpy arrayine çevirmek için sonuna .values yazılır.!! fit komutu array oalrak değişken alıyor.
+
+
+#////linear işlemlerinin uygulanması////#
+linear_reg=LinearRegression() #modelimize ait bir nesne oluşturuyoruz.Artık modelimizin ismi linear_reg
+linear_reg.fit(x,y) #  bu komut ile linear regresyon modeli fit edildi.yani çizgi çizildi.
+#prediction yapalım
+b0=linear_reg.predict(0)
+print(b0)
+kesim=linear_reg.intercept_
+print(kesim)
+egim=linear_reg.coef_
+print(egim)   #//BURAYA KADAR LİNEAR REGRESYON HAKKINDAKİ STANDART İŞLEMLERİMİZİ YAPTIK.
+array=np.array([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).reshape(-1,1)
+plt.scatter(x,y) #Normal noktalarımızı çizdiriyoruz.
+plt.show()
+y_head=linear_reg.predict(array) #BURADAN ANLAŞILIYORKİ PREDİCT İÇİNE İNTEGER VE ARRAY ALABİLİYOR.
+#PREDİCT KOMUTUNUN İÇİNE ARRAY YAZABİLDİĞİMİZ İÇİN BİRÇOK SAYIYI AYNI ANDA PREDİCT EDEBİLİYORUZ.
+plt.plot(array,y_head,color="red") #Klasik plot kullanımı ile çizdirdik. 
